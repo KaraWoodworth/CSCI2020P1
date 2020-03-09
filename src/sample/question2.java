@@ -27,11 +27,12 @@ public class question2 extends Application {
         primaryStage.setTitle("Assignment 1 q2");
         Pane mpane = new Pane();
         // setting up the scene
-        GridPane mainGrid = new GridPane();
-        GridPane inputGrid = new GridPane();
+        GridPane mainGrid = new GridPane(); // this contains input and button
+        GridPane inputGrid = new GridPane(); // this contains text and labels
 
         Label[] labels = new Label[4];
         m_fields = new TextField[4];
+        //generic formatting of grid items
         for(int i = 0; i < labels.length; i++) {
             labels[i] = new Label();
             labels[i].setStyle("-fx-font-weight: bold");
@@ -66,7 +67,6 @@ public class question2 extends Application {
     class CalculatePressed implements EventHandler<ActionEvent> {
         @Override
         public void handle(ActionEvent event) {
-            //need to ensure there is values in fields
             // m_fields[0] = initial amount
             // m_fields[1] = Years
             // m_fields[2] = Annual Interest Rate
@@ -74,18 +74,18 @@ public class question2 extends Application {
             //future value = InvestmentAmount * (1 + monthlyInterestRate)^years*12
             Double InvestmentAmount = Double.parseDouble(m_fields[0].getText());
             Double years = Double.parseDouble(m_fields[1].getText());
+            // divide by 12 to get monthly rate, divide by 100 to convert % to number
             Double monthlyInterestRate = Double.parseDouble(m_fields[2].getText()) / 1200;
             Double incAmount = monthlyInterestRate + 1.0;
-            //m_fields[2].setText(Double.toString(monthlyInterestRate));
-            //m_fields[1].setText(Double.toString(incAmount));
+
             Double futureValue = incAmount;
+            // raising to the power achieved with loop x^3 = x * x * x
+            // subtract one from max itteration as no interest is recieved on the 0'th month.
+            // time must pass to get interest!
             for(int i = 0; i < (years*12) - 1;i++){
-                futureValue = futureValue * incAmount;
-                //System.out.print(futureValue + " ");
+                futureValue *= incAmount;
             }
             futureValue = futureValue * InvestmentAmount;
-            System.out.println (Math.round(futureValue*100) / 100);
-            System.out.print(Math.round(futureValue*100)/100);
             m_fields[3].setText(String.format("%.2f", futureValue));
         }
     }
